@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0374E577-3472-40A7-83EC-88E481EE7580}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skova.Repository.Abstractions", "src\Skova.Repository.Abstractions\Skova.Repository.Abstractions.csproj", "{FC36EE6B-54EE-4164-8EB1-FF29B2502A15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skova.Repository.Impl", "src\Skova.Repository.Impl\Skova.Repository.Impl.csproj", "{234E27D0-3142-4B1A-B85D-959C0C9A75CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC36EE6B-54EE-4164-8EB1-FF29B2502A15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC36EE6B-54EE-4164-8EB1-FF29B2502A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC36EE6B-54EE-4164-8EB1-FF29B2502A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC36EE6B-54EE-4164-8EB1-FF29B2502A15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{234E27D0-3142-4B1A-B85D-959C0C9A75CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{234E27D0-3142-4B1A-B85D-959C0C9A75CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{234E27D0-3142-4B1A-B85D-959C0C9A75CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{234E27D0-3142-4B1A-B85D-959C0C9A75CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FC36EE6B-54EE-4164-8EB1-FF29B2502A15} = {0374E577-3472-40A7-83EC-88E481EE7580}
+		{234E27D0-3142-4B1A-B85D-959C0C9A75CA} = {0374E577-3472-40A7-83EC-88E481EE7580}
+	EndGlobalSection
+EndGlobal
