@@ -1,3 +1,3 @@
 namespace Skova.Repository.Abstractions.Specifications;
 
-public delegate TSpec SpecificationFactory<TSpec, T>() where TSpec : ISpecification<T>;
+public delegate TSpec SpecificationFactory<TSpec>() where TSpec : ISpeicificationBase;

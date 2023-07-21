@@ -1,5 +1,5 @@
 namespace Skova.Repository.Abstractions.Specifications;
 
-public interface ISpecification<out T>
+public interface ISpecification<out T> : ISpeicificationBase
 {
 }
