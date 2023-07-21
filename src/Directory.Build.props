@@ -1,0 +1,23 @@
+<Project>
+    <PropertyGroup>
+        <Version>0.9.0-2</Version>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+    
+        <Authors>Serhii Kovalchuk</Authors>
+        
+        <RepositoryUrl>https://github.com/sk0va/Repository</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+     
+        <PackageTags>EF repository unit-of-work</PackageTags>
+
+        <License>http://Your.License.Url</License>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+        <IncludeSymbols>true</IncludeSymbols>
+        <IncludeSource>true</IncludeSource>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        
+        <PackageOutputPath>$(SolutionDir)/packages</PackageOutputPath>
+    </PropertyGroup>
+</Project>

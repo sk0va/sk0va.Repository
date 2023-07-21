@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
-
+    <PropertyGroup>
+        <PackageId>Skova.Repository.Abstractions</PackageId>
+        <Description>Repository, UnitOfWork, Specification and other abstractions
+            which could be used to abstract busioness logic
+            from persistance layer implementation details</Description>
+    </PropertyGroup>
 </Project>

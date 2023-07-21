@@ -1,22 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+    <PropertyGroup>
+        <PackageId>Skova.Repository.Impl</PackageId>
+        <Description>Repository, UnitOfWork, Specification and other abstractions
+            which could be used to abstract busioness logic
+            from persistance layer implementation details
+        </Description>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Skova.Repository.Abstractions\Skova.Repository.Abstractions.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference
+            Include="..\Skova.Repository.Abstractions\Skova.Repository.Abstractions.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Automapper" Version="12.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="6.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.5" />
-    
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Automapper" Version="12.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="6.0.4" />
+
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>
+ 
