@@ -21,11 +21,6 @@ internal record struct EntitySet<TDomain, TDb, TDbContext>(
         await q.ExecuteDeleteAsync(ct);
     }
 
-    private readonly IQueryable<TDb> Apply()
-    {
-        return DbQueryTransformer.Apply(DbContext.Set<TDb>());
-    }
-
     public async Task<IList<TDomain>> ToListAsync(CancellationToken ct)
     {
         var q = Apply();
@@ -42,5 +37,10 @@ internal record struct EntitySet<TDomain, TDb, TDbContext>(
         var updateExpression = ((EntityUpdater<TDomain, TDb>)updater).GenerateUpdateExpression();
 
         await q.ExecuteUpdateAsync(updateExpression, ct);
+    }
+
+    private readonly IQueryable<TDb> Apply()
+    {
+        return DbQueryTransformer.Apply(DbContext.Set<TDb>());
     }
 }

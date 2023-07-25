@@ -2,10 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Sample.Db;
 using Sample.Core;
-
-using Skova.Repository.Abstractions.Specifications;
-using Skova.Repository.Abstractions;
-using Skova.Repository.Impl;
+using Skova.Repository.DependencyInjection;
 
 namespace Sample.App;
 
@@ -23,12 +20,26 @@ public class Program
         services.AddHostedService<CompanyHostService>();
 
         services.AddAutoMapper(typeof(Program).Assembly);
-
-        services.AddScoped<IUnitOfWork, UnitOfWork<CompanyDbContext>>();
-        services.AddScoped<IRepository<Person>, GenericRepository<Person, DbPerson, CompanyDbContext>>();
         services.AddScoped<PersonService>();
-        services.AddSingleton<SpecificationFactory<IPersonSpecification>>(sp => () => (IPersonSpecification)sp.GetRequiredService(typeof(PersonSpecification)));
-        services.AddTransient<ISpecification<Person>, PersonSpecification>();
+
+        services.AddUnitOfWorkAsScoped<CompanyDbContext>()
+            .AddRepositoryAsScoped<Person, DbPerson>()
+            .AddSpecificationAsTransient<IPersonSpecification, PersonSpecification>();
+
+        // Alternative way:
+
+        // services.AddUnitOfWorkAsScoped<CompanyDbContext>()
+        //     .AddRepositoryAsScoped<Person, DbPerson>(c =>
+        //         c.AddSpecificationAsTransient<IPersonSpecification, PersonSpecification>());
+
+        // Manual dependency injection setup will look like this:
+
+        // services.AddScoped<IUnitOfWork, UnitOfWork<CompanyDbContext>>();
+        // services.AddScoped<IRepository<Person>, GenericRepository<Person, DbPerson, CompanyDbContext>>();
+        // services.AddTransient<PersonSpecification>();
+        // services.AddTransient<ISpecification<Person>, PersonSpecification>();
+        // services.AddTransient<SpecificationFactory<IPersonSpecification>>(
+        //     sp => () => (IPersonSpecification)sp.GetRequiredService(typeof(PersonSpecification)));
 
         var app = builder.Build();
         app.Run();

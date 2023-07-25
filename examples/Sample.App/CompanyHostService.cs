@@ -38,6 +38,9 @@ namespace Sample.App
 
             var res = personService.GetByIdAsync(person.Id, ct);
             res = personService.GetByAgeAsync(person.PersonAge, ct);
+
+            await personService.UpdateNameAsync(person.Id, "Eva", ct);
+            await personService.DeleteAsync(person.Id, ct);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

@@ -9,9 +9,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.9" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Skova.Repository.Impl" Version="0.9.0-2" />
+    
     <PackageReference Include="Automapper" Version="12.0.1 "/>
     <PackageReference Include="Automapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1 "/>
+
+    <PackageReference Include="Skova.Repository.DependencyInjection" Version="0.9.0-*" />
   </ItemGroup>
 
   <ItemGroup>

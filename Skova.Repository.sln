@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Core", "examples\Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Db", "examples\Sample.Db\Sample.Db.csproj", "{197FAF77-20FB-4187-94E7-48D6ADBDACAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skova.Repository.DependencyInjection", "src\Skova.Repository.DependencyInjection\Skova.Repository.DependencyInjection.csproj", "{8E6A38E8-39E2-4535-9EBA-8659E8645665}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{197FAF77-20FB-4187-94E7-48D6ADBDACAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{197FAF77-20FB-4187-94E7-48D6ADBDACAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{197FAF77-20FB-4187-94E7-48D6ADBDACAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E6A38E8-39E2-4535-9EBA-8659E8645665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E6A38E8-39E2-4535-9EBA-8659E8645665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E6A38E8-39E2-4535-9EBA-8659E8645665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E6A38E8-39E2-4535-9EBA-8659E8645665}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FC36EE6B-54EE-4164-8EB1-FF29B2502A15} = {0374E577-3472-40A7-83EC-88E481EE7580}
@@ -53,5 +59,6 @@ Global
 		{5B812CEF-EABB-415A-B3A6-6A6DFC834F1C} = {8B1BA4AC-A6D3-4933-AA51-1916FCD53C24}
 		{832CE885-DA6F-4C3C-B9E8-90F14D2A15B6} = {8B1BA4AC-A6D3-4933-AA51-1916FCD53C24}
 		{197FAF77-20FB-4187-94E7-48D6ADBDACAA} = {8B1BA4AC-A6D3-4933-AA51-1916FCD53C24}
+		{8E6A38E8-39E2-4535-9EBA-8659E8645665} = {0374E577-3472-40A7-83EC-88E481EE7580}
 	EndGlobalSection
 EndGlobal
