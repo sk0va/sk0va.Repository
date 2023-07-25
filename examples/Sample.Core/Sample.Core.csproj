@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Skova.Repository.Abstractions" Version="0.9.0-*"/>
+    <!-- <PackageReference Include="Skova.Repository.Abstractions" Version="0.9.0-*"/> -->
+    <ProjectReference Include="../../src/Skova.Repository.Abstractions/Skova.Repository.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

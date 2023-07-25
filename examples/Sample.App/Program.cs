@@ -3,6 +3,8 @@ using Microsoft.Extensions.Hosting;
 using Sample.Db;
 using Sample.Core;
 using Skova.Repository.DependencyInjection;
+using AutoMapper.Extensions.ExpressionMapping;
+using Microsoft.EntityFrameworkCore;
 
 namespace Sample.App;
 
@@ -16,10 +18,16 @@ public class Program
 
         var services = builder.Services;
 
-        services.AddDbContext<CompanyDbContext>();
+        services.AddDbContext<CompanyDbContext>(
+            c => c.UseNpgsql("Host=localhost;Database=example;Username=postgres;Password=postgres;Port=5432"));
+
         services.AddHostedService<CompanyHostService>();
 
-        services.AddAutoMapper(typeof(Program).Assembly);
+        // WARNING! Using expression mapping in Automapper is reqired for proper expression translations!
+        services.AddAutoMapper(
+            c => c.AddExpressionMapping(),
+            typeof(Program).Assembly);
+
         services.AddScoped<PersonService>();
 
         services.AddUnitOfWorkAsScoped<CompanyDbContext>()
@@ -43,5 +51,6 @@ public class Program
 
         var app = builder.Build();
         app.Run();
+        app.StopAsync().GetAwaiter().GetResult();
     }
 }

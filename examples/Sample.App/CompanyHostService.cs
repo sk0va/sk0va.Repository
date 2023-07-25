@@ -20,7 +20,6 @@ namespace Sample.App
 
             var context = scope.ServiceProvider.GetRequiredService<CompanyDbContext>();
 
-            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             var personService = scope.ServiceProvider.GetRequiredService<PersonService>();
@@ -36,8 +35,8 @@ namespace Sample.App
             await personService.AddAsync(person, ct);
             await unitOfWork.SaveChangesAsync(ct);
 
-            var res = personService.GetByIdAsync(person.Id, ct);
-            res = personService.GetByAgeAsync(person.PersonAge, ct);
+            var res = await personService.GetByIdAsync(person.Id, ct);
+            res = await personService.GetByAgeAsync(person.PersonAge, ct);
 
             await personService.UpdateNameAsync(person.Id, "Eva", ct);
             await personService.DeleteAsync(person.Id, ct);

@@ -4,10 +4,8 @@ namespace Sample.App;
 
 public class CompanyDbContext : DbContext
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public CompanyDbContext(DbContextOptions<CompanyDbContext> options) : base(options)
     {
-        optionsBuilder.UseInMemoryDatabase("Company");
-        base.OnConfiguring(optionsBuilder);
     }
 
     public DbSet<DbPerson> People { get; set; }
