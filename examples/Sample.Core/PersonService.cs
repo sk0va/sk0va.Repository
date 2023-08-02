@@ -30,26 +30,30 @@ public class PersonService
         var spec = SpecificationFactory();
         spec.GetByAge(personAge);
 
-        return await Repository
-            .With(spec)
-            .ToListAsync(ct);
+        return await Repository.With(spec).ExecuteQueryAsync(ct);
     }
 
     public async Task<IEnumerable<Person>> GetByIdAsync(Guid id, CancellationToken ct = default)
-        => await ForPerson(id).ToListAsync(ct);
-
-    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
-        => await ForPerson(id).DeleteAllAsync(ct);
-
-    public async Task UpdateNameAsync(Guid id, string name, CancellationToken ct)
-        => await ForPerson(id).UpdateAsync(p => p.Set(p => p.PersonName, name), ct);
-
-    private IEntitySet<Person> ForPerson(Guid id)
     {
         var spec = SpecificationFactory();
         spec.GetById(id);
 
-        return Repository
-            .With(spec);
+        return await Repository.With(spec).ExecuteQueryAsync(ct);
+    }
+
+    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
+    {
+        var spec = SpecificationFactory();
+        spec.GetById(id);
+
+        await Repository.With(spec).ExecuteDeleteAllAsync(ct);
+    }
+
+    public async Task UpdateNameAsync(Guid id, string name, CancellationToken ct)
+    {
+        var spec = SpecificationFactory();
+        spec.GetById(id);
+
+        await Repository.With(spec).ExecuteUpdateAsync(p => p.Set(p => p.PersonName, name), ct);
     }
 }

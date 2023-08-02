@@ -25,6 +25,7 @@ namespace Sample.App
             var personService = scope.ServiceProvider.GetRequiredService<PersonService>();
 
             var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
             var person = new Person
             {
                 Id = Guid.NewGuid(),
@@ -35,8 +36,8 @@ namespace Sample.App
             await personService.AddAsync(person, ct);
             await unitOfWork.SaveChangesAsync(ct);
 
-            var res = await personService.GetByIdAsync(person.Id, ct);
-            res = await personService.GetByAgeAsync(person.PersonAge, ct);
+            var res = await personService.GetByAgeAsync(person.PersonAge, ct);
+            res = await personService.GetByIdAsync(person.Id, ct);
 
             await personService.UpdateNameAsync(person.Id, "Eva", ct);
             await personService.DeleteAsync(person.Id, ct);

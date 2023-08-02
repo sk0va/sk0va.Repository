@@ -5,11 +5,16 @@ using Skova.Repository.Abstractions;
 
 namespace Skova.Repository.Impl;
 
-internal record struct EntityUpdater<TDomain, TDb>(IMapper Mapper) : IEntityUpdater<TDomain>
+/// <summary>
+/// Default implementation of <see cref="IEntityUpdater{TDomain}"/>
+/// <typeparamref name="TDomain">Domain type of entities to query. Implementations of this type should care about mapping between domain layer and underlying data layer<typeparamref>
+/// </summary>
+public record class EntityUpdater<TDomain, TDb>(IMapper Mapper) : IEntityUpdater<TDomain>
 {
     private static readonly ParameterExpression _target = Expression.Parameter(typeof(SetPropertyCalls<TDb>), "setter");
     private Expression _setCallsChain = _target;
 
+    /// <inheritdoc/>
     public IEntityUpdater<TDomain> Set<TValue>(Expression<Func<TDomain, TValue>> propertySetter, TValue value)
     {
         var propertyTypeArg = Type.MakeGenericMethodParameter(0);
@@ -34,6 +39,9 @@ internal record struct EntityUpdater<TDomain, TDb>(IMapper Mapper) : IEntityUpda
         return this;
     }
 
+    /// <summary>
+    /// Generates expression that represents update operation for db entity
+    /// </summary>
     public Expression<Func<SetPropertyCalls<TDb>, SetPropertyCalls<TDb>>> GenerateUpdateExpression()
     {
         var lambda = Expression.Lambda<Func<SetPropertyCalls<TDb>, SetPropertyCalls<TDb>>>(_setCallsChain, false, new[] { _target });
