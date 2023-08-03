@@ -3,18 +3,17 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
 
-        <Version>0.10.0-4</Version>
-    
+        <Version>0.10.0-4</Version>    
         <Authors>Serhii Kovalchuk</Authors>
         
         <RepositoryUrl>https://github.com/sk0va/Repository</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-     
+        
         <PackageTags>EF repository unit-of-work</PackageTags>
-
-        <License>http://Your.License.Url</License>
+        
+        <License>https://github.com/sk0va/Repository/LICENSE</License>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-
+        
         <IncludeSymbols>true</IncludeSymbols>
         <IncludeSource>true</IncludeSource>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
