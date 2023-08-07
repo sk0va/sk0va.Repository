@@ -5,7 +5,7 @@ namespace Skova.Repository.Impl;
 /// <summary>
 /// Container for query transformations
 /// </summary>
-public class SpecificationContainer<TDomain, TDb> : ISpecification<TDomain>, IQueryTransformer<TDb>
+public class SpecificationContainer<TDb> : IQueryTransformer<TDb>
 {
     private readonly List<Func<IQueryable<TDb>, IQueryable<TDb>>> _transformations = new();
 

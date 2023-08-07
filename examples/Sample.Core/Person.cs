@@ -1,9 +1,7 @@
 namespace Sample.Core;
 
-public class Person
+public class Person : Entity
 {
-    public Guid Id { get; set; }
-
     public string PersonName { get; set; }
     public int PersonAge { get; set; }
 }

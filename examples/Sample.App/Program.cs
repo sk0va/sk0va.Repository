@@ -5,6 +5,9 @@ using Sample.Core;
 using Skova.Repository.DependencyInjection;
 using AutoMapper.Extensions.ExpressionMapping;
 using Microsoft.EntityFrameworkCore;
+using Skova.Repository.Abstractions;
+using Skova.Repository.Impl;
+using Skova.Repository.Abstractions.Specifications;
 
 namespace Sample.App;
 
@@ -12,8 +15,7 @@ public class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
-
+        Console.WriteLine("Ready!");
         var builder = Host.CreateApplicationBuilder(args);
 
         var services = builder.Services;
@@ -35,22 +37,29 @@ public class Program
             .AddSpecificationAsTransient<IPersonSpecification, PersonSpecification>();
 
         // Alternative way:
-
         // services.AddUnitOfWorkAsScoped<CompanyDbContext>()
         //     .AddRepositoryAsScoped<Person, DbPerson>(c =>
         //         c.AddSpecificationAsTransient<IPersonSpecification, PersonSpecification>());
 
-        // Manual dependency injection setup will look like this:
-
+        // Manual dependency injection setup will look like this:        
         // services.AddScoped<IUnitOfWork, UnitOfWork<CompanyDbContext>>();
         // services.AddScoped<IRepository<Person>, GenericRepository<Person, DbPerson, CompanyDbContext>>();
         // services.AddTransient<PersonSpecification>();
         // services.AddTransient<ISpecification<Person>, PersonSpecification>();
         // services.AddTransient<SpecificationFactory<IPersonSpecification>>(
         //     sp => () => (IPersonSpecification)sp.GetRequiredService(typeof(PersonSpecification)));
-
+        
+        Console.WriteLine("Steady!");
         var app = builder.Build();
+        
+        var lifetime = app.Services.GetService<IHostApplicationLifetime>();
+        lifetime.ApplicationStarted.Register(() =>
+        {
+            Console.WriteLine("Finish!");
+            Environment.Exit(0);
+        });
+
+        Console.WriteLine("Go!");
         app.Run();
-        app.StopAsync().GetAwaiter().GetResult();
     }
 }

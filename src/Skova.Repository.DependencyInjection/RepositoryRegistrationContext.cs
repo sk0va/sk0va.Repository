@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Skova.Repository.Abstractions.Specifications;
+using Skova.Repository.Impl;
 
 namespace Skova.Repository.DependencyInjection;
 
@@ -14,8 +15,8 @@ public record class RepositoryRegistrationContext<TEntity, TDb, TDbContext> : Re
 
     public RepositoryRegistrationContext<TEntity, TDb, TDbContext>
         AddSpecificationAsTransient<TSpecAbstraction, TSpec>()
-                where TSpecAbstraction : ISpecification<TEntity>
-                where TSpec : class, TSpecAbstraction, ISpeicificationBase
+                where TSpecAbstraction : ISpeicificationBase, ISpecification<TEntity>
+                where TSpec : class, TSpecAbstraction, IQueryTransformer<TDb>
     {
         Services.AddTransient<TSpec>();
         Services.AddTransient<SpecificationFactory<TSpecAbstraction>>(

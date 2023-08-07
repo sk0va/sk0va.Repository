@@ -1,26 +1,20 @@
 using Sample.App;
 using Sample.Core;
-using Skova.Repository.Impl;
 
 namespace Sample.Db;
 
-public class PersonSpecification : IPersonSpecification, IQueryTransformer<DbPerson>
+public class PersonSpecification : EntitySpecification<Person, DbPerson>, IPersonSpecification
+
+// In case when you need to create new specification classes which will inherits from PersonSpecification, 
+// you should change it signature (and fix DI) to make it generic as follow:
+
+// public class PersonSpecification <TPerson, TDbPerson> : EntitySpecification<TPerson, TDbPerson>, IPersonSpecification
+//     where TPerson : Person    
+//     where TDbPerson: DbPerson
 {
-    private readonly SpecificationContainer<Person, DbPerson> _container = new();
-
-    public void GetById(Guid id)
-    {
-        _container.AddTranformation(q => q.Where(p => p.Id == id));
-    }
-
     public void GetByName(string name)
     {
         _container.AddTranformation(q => q.Where(p => p.Name == name));
-    }
-
-    public IQueryable<DbPerson> Apply(IQueryable<DbPerson> query)
-    {
-        return _container.Apply(query);
     }
 
     public void GetByAge(int age)
