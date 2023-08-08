@@ -57,6 +57,7 @@ public record class EntityQuery<TDomain, TDb, TDbContext>(
     private IQueryable<TDb> Apply(bool AsNoTracking = true)
     {
         IQueryable<TDb> q = DbContext.Set<TDb>();
+        
         if (AsNoTracking)
             q = q.AsNoTracking();
 

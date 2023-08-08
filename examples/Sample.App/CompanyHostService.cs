@@ -33,11 +33,10 @@ namespace Sample.App
                 PersonName = "Adam"
             };
 
-            await personService.AddAsync(person, ct);
-            await unitOfWork.SaveChangesAsync(ct);
+            await personService.CreateAsync(person, ct);
 
-            var res = await personService.GetByAgeAsync(person.PersonAge, ct);
-            res = await personService.GetByIdAsync(person.Id, ct);
+            var byNameAndAge = await personService.GetByAgeAndNameAsync(person.PersonAge, person.PersonName, ct);
+            var byId = await personService.GetByIdAsync(person.Id, ct);
 
             await personService.UpdateNameAsync(person.Id, "Eva", ct);
             await personService.DeleteAsync(person.Id, ct);

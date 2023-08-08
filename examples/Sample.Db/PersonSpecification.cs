@@ -12,13 +12,18 @@ public class PersonSpecification : EntitySpecification<Person, DbPerson>, IPerso
 //     where TPerson : Person    
 //     where TDbPerson: DbPerson
 {
-    public void GetByName(string name)
+    public void ByName(string name, bool exactMatch = false)
     {
         _container.AddTranformation(q => q.Where(p => p.Name == name));
     }
 
-    public void GetByAge(int age)
+    public void MinimalAge(int age)
     {
-        _container.AddTranformation(q => q.Where(p => p.Age == age));
+        _container.AddTranformation(q => q.Where(p => p.Age >= age));
+    }
+
+    public void OrderByAge(bool descending = false)
+    {
+        _container.AddTranformation(q => descending ? q.OrderByDescending(p => p.Age) : q.OrderBy(p => p.Age));
     }
 }

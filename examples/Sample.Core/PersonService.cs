@@ -19,24 +19,29 @@ public class PersonService
     public IUnitOfWork UnitOfWork { get; }
     public SpecificationFactory<IPersonSpecification> SpecificationFactory { get; }
 
-    public async Task AddAsync(Person person, CancellationToken ct = default)
+    public async Task CreateAsync(Person person, CancellationToken ct = default)
     {
         await Repository.AddAsync(person, ct);
         await UnitOfWork.SaveChangesAsync(ct);
     }
 
-    public async Task<IEnumerable<Person>> GetByAgeAsync(int personAge, CancellationToken ct)
-    {
-        var spec = SpecificationFactory();
-        spec.GetByAge(personAge);
-
-        return await Repository.With(spec).ExecuteQueryAsync(ct);
-    }
-
-    public async Task<IEnumerable<Person>> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<Person> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         var spec = SpecificationFactory();
         spec.GetById(id);
+
+        var results = await Repository.With(spec).ExecuteQueryAsync(ct);
+        return results.SingleOrDefault();
+    }
+
+    public async Task<IEnumerable<Person>> GetByAgeAndNameAsync(int personAge, string name, CancellationToken ct)
+    {
+        var spec = SpecificationFactory();
+        
+        spec.MinimalAge(personAge);
+        spec.ByName(name);
+
+        spec.OrderByAge();
 
         return await Repository.With(spec).ExecuteQueryAsync(ct);
     }

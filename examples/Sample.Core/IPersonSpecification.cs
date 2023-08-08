@@ -4,6 +4,8 @@ namespace Sample.Core;
 
 public interface IPersonSpecification : ISpecification<Person>, IEntitySpecification
 {
-    public void GetByName(string name);
-    public void GetByAge(int age);
+    public void ByName(string name, bool exactMatch = false);
+    public void MinimalAge(int age);
+
+    public void OrderByAge(bool descending = false);
 }
