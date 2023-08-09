@@ -19,7 +19,7 @@ public interface IRepository<TDomain>
     /// <param name="entity">The entity to add</param>
     /// <param name="ct">CancellationToken which will be transitionally passed to underlying implementation logic </param>
     /// </summary>
-    Task AddAsync(TDomain entity, CancellationToken ct);
+    Task AddAsync(TDomain entity, CancellationToken ct = default);
 
     /// <summary>
     /// Update entity in repository. To apply changes to the storage, call <see cref="IUnitOfWork.SaveChangesAsync(CancellationToken)"/>

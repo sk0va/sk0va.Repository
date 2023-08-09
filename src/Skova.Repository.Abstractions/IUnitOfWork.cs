@@ -8,5 +8,5 @@ public interface IUnitOfWork
     /// <summary>
     /// Save changes to the database
     /// </summary>
-    Task SaveChangesAsync(CancellationToken ct);
+    Task SaveChangesAsync(CancellationToken ct = default);
 }

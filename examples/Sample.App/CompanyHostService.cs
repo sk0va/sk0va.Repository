@@ -14,7 +14,7 @@ namespace Sample.App
 
         public IServiceProvider Provider { get; }
 
-        public async Task StartAsync(CancellationToken ct)
+        public async Task StartAsync(CancellationToken ct = default)
         {
             using var scope = Provider.CreateScope();
 

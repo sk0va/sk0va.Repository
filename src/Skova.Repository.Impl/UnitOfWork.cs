@@ -20,7 +20,7 @@ public class UnitOfWork<TDbContext> : IUnitOfWork
     }
 
     /// <inheritdoc/>
-    public async Task SaveChangesAsync(CancellationToken ct)
+    public async Task SaveChangesAsync(CancellationToken ct = default)
     {
         await _context.SaveChangesAsync(ct);
     }

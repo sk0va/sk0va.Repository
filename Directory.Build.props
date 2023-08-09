@@ -16,7 +16,7 @@
         
         <IncludeSymbols>true</IncludeSymbols>
         <IncludeSource>true</IncludeSource>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        
         
         <PackageOutputPath>$(SolutionDir)/packages</PackageOutputPath>
     </PropertyGroup>

@@ -8,10 +8,11 @@ namespace Skova.Repository.Impl;
 /// <summary>
 /// Default implementation of <see cref="IEntityQuery{TDomain}"/>
 /// </summary>
-public record class EntityQuery<TDomain, TDb, TDbContext>(
+public record class QueryExecutor<TDomain, TDb, TDbContext>(
     TDbContext DbContext,
     IMapper Mapper,
     ISpecification<TDomain> Specification)
+
  : IEntityQuery<TDomain>
     where TDbContext : DbContext
     where TDb : class
@@ -19,32 +20,32 @@ public record class EntityQuery<TDomain, TDb, TDbContext>(
     private IQueryTransformer<TDb> DbQueryTransformer => (IQueryTransformer<TDb>)Specification;
 
     /// <inheritdoc/>
-    public async Task ExecuteDeleteAllAsync(CancellationToken ct)
+    public async Task<IList<TDomain>> ExecuteQueryAsync(CancellationToken ct = default)
     {
-        var q = Apply();
-        await q.ExecuteDeleteAsync(ct);
-    }
-
-    /// <inheritdoc/>
-    public async Task<IList<TDomain>> ExecuteQueryAsync(CancellationToken ct)
-    {
-        var q = Apply();
+        var q = NewQuery();
         return Mapper.Map<List<TDomain>>(await q.ToListAsync(ct));
     }
 
     /// <inheritdoc/>
-    public async Task<IList<TDomain>> LoadAsync(CancellationToken ct)
+    public async Task<IList<TDomain>> LoadAsync(CancellationToken ct = default)
     {
-        var q = Apply(false);
+        var q = NewQuery(false);
         return Mapper.Map<List<TDomain>>(await q.ToListAsync(ct));
     }
     
     /// <inheritdoc/>
+    public async Task ExecuteDeleteAllAsync(CancellationToken ct = default)
+    {
+        var q = NewQuery();
+        await q.ExecuteDeleteAsync(ct);
+    }
+
+    /// <inheritdoc/>
     public async Task ExecuteUpdateAsync(
         Func<IEntityUpdater<TDomain>, IEntityUpdater<TDomain>> configureEntityUpdater,
-        CancellationToken ct)
+        CancellationToken ct = default)
     {
-        var q = Apply();
+        var q = NewQuery();
 
         IEntityUpdater<TDomain> updater = new EntityUpdater<TDomain, TDb>(Mapper);
         updater = configureEntityUpdater(updater);
@@ -54,7 +55,7 @@ public record class EntityQuery<TDomain, TDb, TDbContext>(
         await q.ExecuteUpdateAsync(updateExpression, ct);
     }
 
-    private IQueryable<TDb> Apply(bool AsNoTracking = true)
+    private IQueryable<TDb> NewQuery(bool AsNoTracking = true)
     {
         IQueryable<TDb> q = DbContext.Set<TDb>();
         

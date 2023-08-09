@@ -34,7 +34,7 @@ public class PersonService
         return results.SingleOrDefault();
     }
 
-    public async Task<IEnumerable<Person>> GetByAgeAndNameAsync(int personAge, string name, CancellationToken ct)
+    public async Task<IEnumerable<Person>> GetByAgeAndNameAsync(int personAge, string name, CancellationToken ct = default)
     {
         var spec = SpecificationFactory();
         
@@ -54,7 +54,7 @@ public class PersonService
         await Repository.With(spec).ExecuteDeleteAllAsync(ct);
     }
 
-    public async Task UpdateNameAsync(Guid id, string name, CancellationToken ct)
+    public async Task UpdateNameAsync(Guid id, string name, CancellationToken ct = default)
     {
         var spec = SpecificationFactory();
         spec.GetById(id);

@@ -1,0 +1,2 @@
+dotnet test --collect:"XPlat Code Coverage"
+reportgenerator -reports:"tests/Skova.Repository.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"tests/Skova.Repository.Tests/TestResults/coveragereport" -reporttypes:Html

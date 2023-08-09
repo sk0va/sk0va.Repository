@@ -17,20 +17,23 @@ public class GenericRepository<TDomain, TDb, TDbContext> : IRepository<TDomain>
     private DbSet<TDb> DbSet => _dbContext.Set<TDb>();
 
     private readonly IMapper _mapper;
+    private readonly KeyRecognizer<TDomain> keyRecognizer;
 
     /// <summary>
     /// Create a new instance of <see cref="GenericRepository{TDomain, TDb, TDbContext}"/>
     /// </summary>
     public GenericRepository(
         IMapper mapper,
-        TDbContext dbContext)
+        TDbContext dbContext, 
+        KeyRecognizer<TDomain> keyRecoginzer) 
     {
+        keyRecognizer = keyRecoginzer;
         _dbContext = dbContext;
         _mapper = mapper;
     }
 
     /// <inheritdoc/>
-    public async Task AddAsync(TDomain entity, CancellationToken ct)
+    public async Task AddAsync(TDomain entity, CancellationToken ct = default)
     {
         var dbEntity = _mapper.Map<TDb>(entity);
         await _dbContext.AddAsync(dbEntity, ct);
@@ -39,20 +42,30 @@ public class GenericRepository<TDomain, TDb, TDbContext> : IRepository<TDomain>
     /// <inheritdoc/>
     public void Update(TDomain entity)
     {
-        var dbEntity = _mapper.Map<TDb>(entity);
+        TDb dbEntity = FindEntity(entity);
+        _mapper.Map(entity, dbEntity);
         DbSet.Update(dbEntity);
     }
 
     /// <inheritdoc/>
     public void Delete(TDomain entity)
     {
-        var dbEntity = _mapper.Map<TDb>(entity);
+        TDb dbEntity = FindEntity(entity);
         DbSet.Remove(dbEntity);
+    }
+
+    private TDb FindEntity(TDomain entity)
+    {
+        var key = keyRecognizer(entity);
+        var dbEntity = DbSet.Find(key) 
+            ?? throw new KeyNotFoundException($"Entity with key {key} not found");
+
+        return dbEntity;
     }
 
     /// <inheritdoc/>
     public IEntityQuery<TDomain> With(ISpecification<TDomain> specification)
     {
-        return new EntityQuery<TDomain, TDb, TDbContext>(_dbContext, _mapper, specification);
+        return new QueryExecutor<TDomain, TDb, TDbContext>(_dbContext, _mapper, specification);
     }
 }
