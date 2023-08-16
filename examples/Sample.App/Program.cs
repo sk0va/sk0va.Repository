@@ -33,11 +33,8 @@ public class Program
         services.AddScoped<PersonService>();
 
         services.AddUnitOfWorkAsScoped<CompanyDbContext>()
-            .AddRepositoryAsScoped<Person, DbPerson>()
+            .AddRepositoryAsScoped<Person, DbPerson>(config => config.AddKeyRecognizer(p => new object[] { p.Id }))
             .AddSpecificationAsTransient<IPersonSpecification, PersonSpecification>();
-
-        services.AddSingleton<KeyRecognizer<Person>>(_ => p => new[] { (object)p.Id });
-        services.AddSingleton<KeyRecognizer<Entity>>(_ => e => new[] { (object)e.Id });
 
         // Alternative way:
         // services.AddUnitOfWorkAsScoped<CompanyDbContext>()

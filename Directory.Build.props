@@ -3,7 +3,7 @@
 
         <ImplicitUsings>enable</ImplicitUsings>
 
-        <Version>0.10.0-4</Version>    
+        <Version>0.10.0-7</Version>    
         <Authors>Serhii Kovalchuk</Authors>
         
         <RepositoryUrl>https://github.com/sk0va/Repository</RepositoryUrl>
@@ -15,8 +15,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         
         <IncludeSymbols>true</IncludeSymbols>
-        <IncludeSource>true</IncludeSource>
-        
+        <IncludeSource>true</IncludeSource>        
         
         <PackageOutputPath>$(SolutionDir)/packages</PackageOutputPath>
     </PropertyGroup>

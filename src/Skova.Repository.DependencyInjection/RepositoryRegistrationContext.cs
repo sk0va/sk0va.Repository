@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Skova.Repository.Abstractions.Specifications;
@@ -5,7 +6,7 @@ using Skova.Repository.Impl;
 
 namespace Skova.Repository.DependencyInjection;
 
-public record class RepositoryRegistrationContext<TEntity, TDb, TDbContext> : RegistrationContext<TDbContext>
+public record class RepositoryRegistrationContext<TEntity, TDb, TDbContext> : UnitOfWorkRegistrationContext<TDbContext>
     where TDbContext : DbContext
     where TDb : class
 {
@@ -23,6 +24,13 @@ public record class RepositoryRegistrationContext<TEntity, TDb, TDbContext> : Re
             sp => () => (TSpecAbstraction)sp.GetRequiredService(typeof(TSpec)));
         Services.AddTransient<ISpecification<TEntity>, TSpec>();
 
+        return this;
+    }
+
+    public RepositoryRegistrationContext<TEntity, TDb, TDbContext> AddKeyRecognizer(Expression<KeyRecognizer<TEntity>> keyRecognizer) 
+    {
+        var recognizer = keyRecognizer.Compile();
+        Services.AddSingleton(recognizer);
         return this;
     }
 }

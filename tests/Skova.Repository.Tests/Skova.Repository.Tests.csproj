@@ -26,11 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Skova.Repository.Impl\Skova.Repository.Impl.csproj" />
+    <ProjectReference Include="..\..\src\Skova.Repository.DependencyInjection\Skova.Repository.DependencyInjection.csproj" />
 
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.*" />
-    
+    <PackageReference Include="Automapper.Extensions.Microsoft.DependencyInjection" Version="12.0.*"/>        
   </ItemGroup>
 
 </Project>

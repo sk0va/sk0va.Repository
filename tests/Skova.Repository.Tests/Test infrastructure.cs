@@ -31,10 +31,15 @@ public class Person
     public string Email { get; set; }
 }
 
-public class PersonSpecification : ISpecification<Person>, IQueryTransformer<DbPerson>
+public interface IPersonSpecification : ISpecification<Person>
+{
+    void ById(Guid id);
+}
+
+public class PersonSpecification : ISpecification<Person>, IQueryTransformer<DbPerson>, IPersonSpecification
 {
     private readonly SpecificationContainer<DbPerson> _specificationContainer = new();
-    
+
     public void ById(Guid id)
     {
         _specificationContainer.AddTranformation(q => q.Where(e => e.Id == id));

@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using AutoMapper.Extensions.ExpressionMapping;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Skova.Repository.Tests;
 
@@ -180,13 +181,6 @@ public class PersonRepositoryTests
         var results = await _repo.With(spec).ExecuteQueryAsync();
         results.Should().BeEmpty();
     }
-
-    // [Fact]
-    // public void Test1()
-    // {
-    //     Expression<Func<DbPerson, string>> expression = Convert<Person, DbPerson, string>(x => x.FirstName);
-    //     Contract.Assert(expression != null);
-    // }
         
     [Fact] 
     public async Task ExecuteUpdateAsync_HappyPath()
@@ -208,10 +202,5 @@ public class PersonRepositoryTests
         var actual = results.Single();
         actual.FirstName.Should().Be("Jane");
         actual.LastName.Should().Be(_person.LastName);
-    }
-
-    public Expression<Func<TDb, TValue>> Convert<TDomain, TDb, TValue>(Expression<Func<TDomain, TValue>> expression) 
-    {
-        return _mapper.Map<Expression<Func<TDb, TValue>>>(expression);
     }
 }

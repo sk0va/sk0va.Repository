@@ -7,10 +7,10 @@ namespace Skova.Repository.DependencyInjection;
 
 public static class DependencyRegistrar
 {
-    public static RegistrationContext<TDbContext> AddUnitOfWorkAsScoped<TDbContext>(this IServiceCollection services)
+    public static UnitOfWorkRegistrationContext<TDbContext> AddUnitOfWorkAsScoped<TDbContext>(this IServiceCollection services)
         where TDbContext : DbContext
     {
         services.AddScoped<IUnitOfWork, UnitOfWork<TDbContext>>();
-        return new RegistrationContext<TDbContext>(services);
+        return new UnitOfWorkRegistrationContext<TDbContext>(services);
     }
 }

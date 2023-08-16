@@ -5,7 +5,7 @@ using Skova.Repository.Impl;
 
 namespace Skova.Repository.DependencyInjection;
 
-public record class RegistrationContext<TDbContext>(IServiceCollection Services)
+public record class UnitOfWorkRegistrationContext<TDbContext>(IServiceCollection Services)
     where TDbContext : DbContext
 {
      public RepositoryRegistrationContext<TEntity, TDb, TDbContext>
@@ -17,7 +17,7 @@ public record class RegistrationContext<TDbContext>(IServiceCollection Services)
         Services.AddScoped<IRepository<TEntity>, GenericRepository<TEntity, TDb, TDbContext>>();
 
         RepositoryRegistrationContext<TEntity, TDb, TDbContext> res = new (Services);
-        res ??= config?.Invoke(res);
+        res = config?.Invoke(res) ?? res;
         return res;
     }
 }
