@@ -2,6 +2,8 @@
 
 **IMPORTANT** Skova.Repositoty.* packages are not present in the NuGet repository at the moment and will be published soon. Follow the  updates
 
+[![codecov](https://codecov.io/gh/sk0va/sk0va.Repository/graph/badge.svg?token=TDHXGUH5NZ)](https://codecov.io/gh/sk0va/sk0va.Repository)
+
 Use this library to implement the Repository pattern. Designed with Clean Architecture in mind. Hereafter the terminology from a Clean Architecture will be used.
 It consists of 3 packages:
 
