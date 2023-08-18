@@ -7,6 +7,9 @@ namespace Skova.Repository.Impl;
 
 /// <summary>
 /// Generic implementation of <see cref="IRepository{TDomain}"/>
+/// <typeparamref name="TDomain"/> - type of entity in domain layer
+/// <typeparamref name="TDb"/> - type of entity in underlying data layer
+/// <typeparamref name="TDbContext"/> - type of <see cref="DbContext"/> which will be used to query underlying data layer
 /// </summary>
 public class GenericRepository<TDomain, TDb, TDbContext> : IRepository<TDomain>
     where TDbContext : DbContext
@@ -33,6 +36,12 @@ public class GenericRepository<TDomain, TDb, TDbContext> : IRepository<TDomain>
     }
 
     /// <inheritdoc/>
+    public IEntityQuery<TDomain> With(ISpecification<TDomain> specification)
+    {
+        return new QueryExecutor<TDomain, TDb, TDbContext>(_dbContext, _mapper, specification);
+    }
+
+    /// <inheritdoc/>
     public async Task AddAsync(TDomain entity, CancellationToken ct = default)
     {
         var dbEntity = _mapper.Map<TDb>(entity);
@@ -54,18 +63,12 @@ public class GenericRepository<TDomain, TDb, TDbContext> : IRepository<TDomain>
         DbSet.Remove(dbEntity);
     }
 
-    private TDb FindEntity(TDomain entity)
+    protected TDb FindEntity(TDomain entity)
     {
         var key = keyRecognizer(entity);
         var dbEntity = DbSet.Find(key) 
             ?? throw new KeyNotFoundException($"Entity with key {key} not found");
 
         return dbEntity;
-    }
-
-    /// <inheritdoc/>
-    public IEntityQuery<TDomain> With(ISpecification<TDomain> specification)
-    {
-        return new QueryExecutor<TDomain, TDb, TDbContext>(_dbContext, _mapper, specification);
     }
 }
