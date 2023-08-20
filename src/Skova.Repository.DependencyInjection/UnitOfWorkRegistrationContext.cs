@@ -5,10 +5,17 @@ using Skova.Repository.Impl;
 
 namespace Skova.Repository.DependencyInjection;
 
-public record class UnitOfWorkRegistrationContext<TDbContext>(IServiceCollection Services)
+public class UnitOfWorkRegistrationContext<TDbContext>
     where TDbContext : DbContext
 {
-     public RepositoryRegistrationContext<TEntity, TDb, TDbContext>
+    protected IServiceCollection Services { get; }
+
+    public UnitOfWorkRegistrationContext(IServiceCollection services)
+    {
+        Services = services;
+    }
+
+    public RepositoryRegistrationContext<TEntity, TDb, TDbContext>
         AddRepositoryAsScoped<TEntity, TDb>(
              Func<RepositoryRegistrationContext<TEntity, TDb, TDbContext>,
                   RepositoryRegistrationContext<TEntity, TDb, TDbContext>> config = null)

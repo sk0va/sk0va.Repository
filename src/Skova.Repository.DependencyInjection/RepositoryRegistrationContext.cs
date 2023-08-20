@@ -6,7 +6,7 @@ using Skova.Repository.Impl;
 
 namespace Skova.Repository.DependencyInjection;
 
-public record class RepositoryRegistrationContext<TEntity, TDb, TDbContext> : UnitOfWorkRegistrationContext<TDbContext>
+public class RepositoryRegistrationContext<TEntity, TDb, TDbContext> : UnitOfWorkRegistrationContext<TDbContext>
     where TDbContext : DbContext
     where TDb : class
 {

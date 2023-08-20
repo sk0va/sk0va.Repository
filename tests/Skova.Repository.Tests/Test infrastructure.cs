@@ -38,7 +38,7 @@ public interface IPersonSpecification : ISpecification<Person>
 
 public class PersonSpecification : ISpecification<Person>, IQueryTransformer<DbPerson>, IPersonSpecification
 {
-    private readonly SpecificationContainer<DbPerson> _specificationContainer = new();
+    private readonly QueryTransformationsContainer<DbPerson> _specificationContainer = new();
 
     public void ById(Guid id)
     {

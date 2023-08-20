@@ -70,6 +70,8 @@ In your Persistence layer, you should implement at least your specifications.
 
 - **`GenericRepository<TDomain, TDb, TDbContext>`** - default generic implementation of the `IRepository` interface. You should specify the type of a domain entity (`TDomain`), type of the corresponding db entity (`TDb`) and it requires specifying db context type (`TDbContext`)
 
+- **`QueryTransformationsContainer<TDb>`** - tool for containing query transformations. This class is useful in specification implementation classes (see the following examples). De facto `QueryTransformationsContainer<>` just wraps `List<Func<IQueryable<TDb>, IQueryable<TDb>>>` and implements `IQueryTranformation<>` .
+
 ### Types registration in DI
 Skova.Repository.DependencyInjection package contains extension methods that make DI registrations of these classes much easier, in fluent style:
 
@@ -90,9 +92,86 @@ services.AddTransient<SpecificationFactory<IPersonSpecification>>(
     sp => () => (IPersonSpecification)sp.GetRequiredService(typeof(PersonSpecification)));
 ```
 
-`AddUnitOfWorkAsScoped` is used to register `UnitOfWork` for a db context. Then you can chain registrations of repositories associated with this unit-of-work through `AddRepositoryAsScoped` method. During repository registration, you should register specifications for `TDomain` type by one of two ways:
+`AddUnitOfWorkAsScoped` is used to register `UnitOfWork` for a db context. Then you can chain registrations of repositories associated with this unit-of-work through `AddRepositoryAsScoped` method. During repository registration, you should register specifications for `TDomain` type in one of two ways:
 
 - chain one or more `AddSpecification*` methods right after `AddRepositoryAsScoped`
 - using `config` argument of the `AddRepositoryAsScoped` method.
 
 **Important!** that you should register `KeyRecognizer<TDomain>` delegate for any domain type used by the registered `GenericRepository<>`. That can be done through `AddKeyRecognizer` method by chaining it after `AddRepositoryAsScoped` or calling it in the scope of the configuration lambda argument of `AddRepositoryAsScoped`.
+
+### Implementing specifications
+
+Typical specification implementation is working in two phases:
+
+1. Specify criteria needed to determine a set domain of entities for further processing (like retrieving from storage, updation or deletion)
+2. Apply transformation for `IQuery<TDb>` (DbSet usually) which will be used by EF Core for further processing of target db entities
+
+Inside your specification use `QueryTransformationsContainer<>` to accumulate query transformations in phase (1) and apply transformations in phase (2)
+Your specification implementation class should
+
+- Implement `ISpecification<TDomain>` interface for target domain entity of `TDomain` type, which will be used in phase (1)
+- Implement `IQueryTransformer<TDb>` to apply transformation in phase (2)
+
+Example:
+```csharp
+public class EntitySpecification : QueryTransformationsContainer<TDb>, IEntitySpecification
+{
+    public void GetById(Guid id)
+    {
+        AddTranformation(q => q.Where(p => p.Id == id));
+    }
+
+    public IQueryable<TDbEntity> Apply(IQueryable<TDbEntity> query)
+    {
+        return Apply(query);
+    }
+}
+```
+
+In the case of hierarchies of entities, specification implementation became more tricky. We collect query transformations in `QueryTransformationsContainer<TDb>` But we can't just re-use `QueryTransformationsContainer<DbEntity>` in children's classes, because we can't pass transformations for inherited db entities like `_container.AddTranformation((IQueryable<DbPerson> q) => q.Where(Id = id))` - compilator cannot convert that lambda expression to `Func<IQueryable<DbEntity>, IQueryable<DbEntity>>`. But you may do this in this way:
+
+```csharp
+public class EntitySpecification<TDomain, TDb> : QueryTransformationsContainer<TDb>, IEntitySpecification
+    where TDomain : Entity
+    where TDb : DbEntity
+{
+    public void GetById(Guid id)
+    {
+        AddTranformation(q => q.Where(p => p.Id == id));
+    }
+}
+
+public class PersonSpecification : EntitySpecification<Person, DbPerson>, IPersonSpecification
+{
+    public void ByName(string name, bool exactMatch = false)
+    {
+        AddTranformation(q => q.Where(p => p.Name == name));
+    }
+
+    public void MinimalAge(int age)
+    {
+        AddTranformation(q => q.Where(p => p.Age >= age));
+    }
+
+    public void OrderByAge(bool descending = false)
+    {
+        AddTranformation(q => descending ? q.OrderByDescending(p => p.Age) : q.OrderBy(p => p.Age));
+    }
+}
+```
+
+Here `EntitySpecification` is a base class for specifications as well as Entity is the root base class for entities like Person. Note, that we use parametrization with constraint for type parameters to Entities-derived classes for both layers domain and db. This is required to make all `IQuery<TDb>` transformations be typed with the most specific entity type.
+
+When you need to add other specification classes which inherit `PersonSpecification`, you should change the `PersonSpecification` signature to make it generic as follow:
+
+```csharp
+public class PersonSpecification<TPerson, TDbPerson> : EntitySpecification<TPerson, TDbPerson>, IPersonSpecification
+    where TPerson : Person    
+    where TDbPerson : DbPerson
+```
+
+So inherited from `PersonSpecification<>` classes will specify specific domain and db entity types they need. I.e.:
+
+```csharp
+public class EmployeeSpecification : PersonSpecification<TEmployee, TDbEmployee>, IEmployeeSpecification
+```

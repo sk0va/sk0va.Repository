@@ -8,16 +8,23 @@ namespace Skova.Repository.Impl;
 /// <summary>
 /// Default implementation of <see cref="IEntityQuery{TDomain}"/>
 /// </summary>
-public record class QueryExecutor<TDomain, TDb, TDbContext>(
-    TDbContext DbContext,
-    IMapper Mapper,
-    ISpecification<TDomain> Specification)
-
+public class QueryExecutor<TDomain, TDb, TDbContext>
  : IEntityQuery<TDomain>
     where TDbContext : DbContext
     where TDb : class
 {
     private IQueryTransformer<TDb> DbQueryTransformer => (IQueryTransformer<TDb>)Specification;
+
+    protected TDbContext DbContext { get; set; }
+    protected IMapper Mapper { get; set; }
+    protected ISpecification<TDomain> Specification { get; set; }
+
+    public QueryExecutor(TDbContext dbContext, IMapper mapper, ISpecification<TDomain> specification)
+    {
+        DbContext = dbContext;
+        Mapper = mapper;
+        Specification = specification;
+    }
 
     /// <inheritdoc/>
     public async Task<IList<TDomain>> ExecuteQueryAsync(CancellationToken ct = default)

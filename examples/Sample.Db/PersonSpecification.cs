@@ -10,20 +10,20 @@ public class PersonSpecification : EntitySpecification<Person, DbPerson>, IPerso
 
 // public class PersonSpecification <TPerson, TDbPerson> : EntitySpecification<TPerson, TDbPerson>, IPersonSpecification
 //     where TPerson : Person    
-//     where TDbPerson: DbPerson
+//     where TDbPerson : DbPerson
 {
-    public void ByName(string name, bool exactMatch = false)
+    public void ByName(string name)
     {
-        _container.AddTranformation(q => q.Where(p => p.Name == name));
+        AddTranformation(q => q.Where(p => p.Name == name));
     }
 
     public void MinimalAge(int age)
     {
-        _container.AddTranformation(q => q.Where(p => p.Age >= age));
+        AddTranformation(q => q.Where(p => p.Age >= age));
     }
 
     public void OrderByAge(bool descending = false)
     {
-        _container.AddTranformation(q => descending ? q.OrderByDescending(p => p.Age) : q.OrderBy(p => p.Age));
+        AddTranformation(q => descending ? q.OrderByDescending(p => p.Age) : q.OrderBy(p => p.Age));
     }
 }

@@ -9,10 +9,17 @@ namespace Skova.Repository.Impl;
 /// Default implementation of <see cref="IEntityUpdater{TDomain}"/>
 /// <typeparamref name="TDomain">Domain type of entities to query. Implementations of this type should care about mapping between domain layer and underlying data layer<typeparamref>
 /// </summary>
-public record class EntityUpdater<TDomain, TDb>(IMapper Mapper) : IEntityUpdater<TDomain>
+public class EntityUpdater<TDomain, TDb> : IEntityUpdater<TDomain>
 {
     private static readonly ParameterExpression _target = Expression.Parameter(typeof(SetPropertyCalls<TDb>), "setter");
     private Expression _setCallsChain = _target;
+
+    protected IMapper Mapper { get; }
+
+    public EntityUpdater(IMapper mapper)
+    {
+        Mapper = mapper;
+    }
 
     /// <inheritdoc/>
     public IEntityUpdater<TDomain> Set<TValue>(Expression<Func<TDomain, TValue>> propertySetter, TValue value)
