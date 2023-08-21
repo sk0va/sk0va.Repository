@@ -27,13 +27,13 @@ dotnet add package Skova.Repository.DependencyInjection
 ### Application Layer
 In your Application layer, use the following abstractions:
 
-- **`IUnitOfWork`** - represents unit-of-work that will be used to manage entities. UnitOfWork is usually registered in DI containers as scoped associated with some business transaction. Skova.Repository.Impl contains default implementation `UnitOfWork` which just wraps your db context classes. 
+- **`IUnitOfWork`** - represents unit-of-work that will be used to manage entities. UnitOfWork is usually registered in DI containers as scoped associated with some business transaction. Skova.Repository.Impl contains default implementation `UnitOfWork` which just wraps your db context classes.
 
-- **`IRepository<TDomain>`** - represents a repository for a domain layer's entity of the specified `TDomain` type. Supports operations for creating updating and deleting entities from a unit of work using `AddAsync`, `Update` and `Delete` methods. To load entities from a storage to unit-of-work or get them from storage without attaching to the unit-of-work, you should call method `With` and provide a specification of the entities you want to receive. Also, it supports the updation and deletion of entities that fit provided specification directly in storage like EF Core do (See "[ExecuteUpdate and ExecuteDelete](https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete)" article in the MSDN documentation for details). You should use the method `With` first and provide specifications that will be used to define entities you want to update or delete.
+- **`IRepository<TDomain>`** - represents a repository for a domain layer's entity of the specified `TDomain` type. Supports operations for creating updating and deleting entities from a unit of work using `AddAsync`, `Update` and `Delete` methods. To load entities from storage to unit-of-work or get them from storage without attaching them to the unit-of-work, you should call method `With` and provide a specification of the entities you want to receive. Also, it supports the updation and deletion of entities that fit provided specification directly in storage like EF Core do (See "[ExecuteUpdate and ExecuteDelete](https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete)" article in the MSDN documentation for details). You should use the method `With` first and provide specifications that will be used to define entities you want to update or delete.
 
 - **`ISpecification<TDomain>`** - represents a specification for a domain layer's entity of the specified `TDomain` type. Specifications are used to customize queries when you want to load data from storage. This library doesn't strict developers to use some API for specifications and leaves it up to you how to design specifications API.
 
-Sample specification may look like:
+Sample specification may look like this:
 ```csharp
 public interface IPersonSpecification : ISpecification<Person>
 {
@@ -45,7 +45,7 @@ public interface IPersonSpecification : ISpecification<Person>
 }
 ```
 
-Also, you may organize some of specifications into hierarchy:
+Also, you may organize some of specifications into a hierarchy:
 
 ```csharp
 public interface IPersonSpecification : ISpecification<Person>, IEntitySpecification
@@ -70,7 +70,7 @@ In your Persistence layer, you should implement at least your specifications.
 
 - **`GenericRepository<TDomain, TDb, TDbContext>`** - default generic implementation of the `IRepository` interface. You should specify the type of a domain entity (`TDomain`), type of the corresponding db entity (`TDb`) and it requires specifying db context type (`TDbContext`)
 
-- **`QueryTransformationsContainer<TDb>`** - tool for containing query transformations. This class is useful in specification implementation classes (see the following examples). De facto `QueryTransformationsContainer<>` just wraps `List<Func<IQueryable<TDb>, IQueryable<TDb>>>` and implements `IQueryTranformation<>` .
+- **`QueryTransformationsContainer<TDb>`** - tool for containing query transformations. This class is useful in specification implementation classes (see the following examples). De facto `QueryTransformationsContainer<>` just wraps `List<Func<IQueryable<TDb>, IQueryable<TDb>>>` and implements `IQueryTranformation<>`.
 
 ### Types registration in DI
 Skova.Repository.DependencyInjection package contains extension methods that make DI registrations of these classes much easier, in fluent style:
@@ -119,11 +119,6 @@ public class EntitySpecification : QueryTransformationsContainer<TDb>, IEntitySp
     public void GetById(Guid id)
     {
         AddTranformation(q => q.Where(p => p.Id == id));
-    }
-
-    public IQueryable<TDbEntity> Apply(IQueryable<TDbEntity> query)
-    {
-        return Apply(query);
     }
 }
 ```
