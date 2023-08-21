@@ -1,22 +1,30 @@
 <Project>
     <PropertyGroup>
-
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
 
-        <Version>0.10.0-7</Version>    
+        <Version>0.10.0-8.beta</Version>
         <Authors>Serhii Kovalchuk</Authors>
-        
+               
         <RepositoryUrl>https://github.com/sk0va/Repository</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        
-        <PackageTags>EF repository unit-of-work</PackageTags>
-        
-        <License>https://github.com/sk0va/Repository/LICENSE</License>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        
-        <IncludeSymbols>true</IncludeSymbols>
-        <IncludeSource>true</IncludeSource>        
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
         
         <PackageOutputPath>$(SolutionDir)/packages</PackageOutputPath>
+        <PackageTags>EF repository unit-of-work</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <!-- <PackageLicenseFile>LICENSE</PackageLicenseFile> -->
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <IncludeContentInPack>true</IncludeContentInPack>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <IncludeSource>true</IncludeSource>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>    
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 </Project>

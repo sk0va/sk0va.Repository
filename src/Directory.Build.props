@@ -1,8 +1,0 @@
-<Project>
-    <Import Project="../Directory.Build.props" />
-    
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    </PropertyGroup>
-</Project>

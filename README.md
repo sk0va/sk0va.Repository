@@ -1,8 +1,4 @@
-
-
-**IMPORTANT** Skova.Repositoty.* packages are not present in the NuGet repository at the moment and will be published soon. Follow the  updates
-
-[![codecov](https://codecov.io/gh/sk0va/sk0va.Repository/graph/badge.svg?token=TDHXGUH5NZ)](https://codecov.io/gh/sk0va/sk0va.Repository)
+[![codecov](https://codecov.io/gh/sk0va/sk0va.Repository/graph/badge.svg?token=TDHXGUH5NZ)](https://codecov.io/gh/sk0va/sk0va.Repository) [![NuGet](http://img.shields.io/nuget/vpre/Skova.Repository.Abstractions.svg?label=NuGet)](https://www.nuget.org/packages/Skova.Repository.Abstractions/)
 
 Use this library to implement the Repository pattern. Designed with Clean Architecture in mind. Hereafter the terminology from a Clean Architecture will be used.
 It consists of 3 packages:
@@ -27,9 +23,8 @@ dotnet add package Skova.Repository.DependencyInjection
 ### Application Layer
 In your Application layer, use the following abstractions:
 
-- **`IUnitOfWork`** - represents unit-of-work that will be used to manage entities. UnitOfWork is usually registered in DI containers as scoped associated with some business transaction. Skova.Repository.Impl contains default implementation `UnitOfWork` which just wraps your db context classes.
-
-- **`IRepository<TDomain>`** - represents a repository for a domain layer's entity of the specified `TDomain` type. Supports operations for creating updating and deleting entities from a unit of work using `AddAsync`, `Update` and `Delete` methods. To load entities from storage to unit-of-work or get them from storage without attaching them to the unit-of-work, you should call method `With` and provide a specification of the entities you want to receive. Also, it supports the updation and deletion of entities that fit provided specification directly in storage like EF Core do (See "[ExecuteUpdate and ExecuteDelete](https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete)" article in the MSDN documentation for details). You should use the method `With` first and provide specifications that will be used to define entities you want to update or delete.
+- **`IUnitOfWork`** - represents unit-of-work that will be used to manage entities. UnitOfWork is usually registered in DI containers as scoped associated with some business transaction. Skova.Repository.Imp
+Where and how to leave feedback such as link to the project issues, Twitter, bug trry for a domain layer's entity of the specified `TDomain` type. Supports operations for creating updating and deleting entities from a unit of work using `AddAsync`, `Update` and `Delete` methods. To load entities from storage to unit-of-work or get them from storage without attaching them to the unit-of-work, you should call method `With` and provide a specification of the entities you want to receive. Also, it supports the updation and deletion of entities that fit provided specification directly in storage like EF Core do (See "[ExecuteUpdate and ExecuteDelete](https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete)" article in the MSDN documentation for details). You should use the method `With` first and provide specifications that will be used to define entities you want to update or delete.
 
 - **`ISpecification<TDomain>`** - represents a specification for a domain layer's entity of the specified `TDomain` type. Specifications are used to customize queries when you want to load data from storage. This library doesn't strict developers to use some API for specifications and leaves it up to you how to design specifications API.
 

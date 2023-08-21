@@ -1,8 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>Skova.Repository.Abstractions</PackageId>
-        <Description>Repository, UnitOfWork, Specification and other abstractions
-            which could be used to abstract busioness logic
-            from persistance layer implementation details</Description>
+        <Description>Repository, UnitOfWork, Specification and other abstractions which could be used to abstract business logic from persistance layer implementation details</Description>
+        <Copyright></Copyright>
     </PropertyGroup>
+
+    <ItemGroup>
+        
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+    </ItemGroup>
 </Project>

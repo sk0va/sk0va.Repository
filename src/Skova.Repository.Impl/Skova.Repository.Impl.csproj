@@ -2,14 +2,13 @@
     <PropertyGroup>
         <PackageId>Skova.Repository.Impl</PackageId>
         <Description>Repository, UnitOfWork, Specification and other abstractions
-            which could be used to abstract busioness logic
+            which could be used to abstract business logic
             from persistance layer implementation details
         </Description>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference
-            Include="..\Skova.Repository.Abstractions\Skova.Repository.Abstractions.csproj" />
+        <ProjectReference Include="..\Skova.Repository.Abstractions\Skova.Repository.Abstractions.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -18,10 +17,8 @@
 
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.5" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
+
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
     </ItemGroup>
 </Project>
  

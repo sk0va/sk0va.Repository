@@ -1,0 +1,11 @@
+<Project>
+    <ItemGroup>
+        <None Include="$(SolutionDir)LICENSE" Pack="true" PackagePath=""/>
+        <None Include="$(SolutionDir)README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+    <PropertyGroup>
+        <AssemblyOriginatorKeyFile>$(SolutionDir)SignKey.snk</AssemblyOriginatorKeyFile>
+        <SignAssembly>true</SignAssembly>
+    </PropertyGroup>
+</Project>
+   
