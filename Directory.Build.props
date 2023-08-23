@@ -3,7 +3,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
 
-        <Version>0.10.0-8.beta</Version>
+        <Version>0.10.0-9.beta</Version>
         <Authors>Serhii Kovalchuk</Authors>
                
         <RepositoryUrl>https://github.com/sk0va/Repository</RepositoryUrl>
