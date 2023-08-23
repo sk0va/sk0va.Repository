@@ -98,7 +98,7 @@ services.AddTransient<SpecificationFactory<IPersonSpecification>>(
 
 Typical specification implementation is working in two phases:
 
-1. Specify criteria needed to determine a set domain of entities for further processing (like retrieving from storage, updation or deletion)
+1. Specify criteria needed to determine a set of domain entities for further processing (like retrieving from storage, updation or deletion)
 2. Apply transformation for `IQuery<TDb>` (DbSet usually) which will be used by EF Core for further processing of target db entities
 
 Inside your specification use `QueryTransformationsContainer<>` to accumulate query transformations in phase (1) and apply transformations in phase (2)

@@ -13,7 +13,6 @@
         <PackageOutputPath>$(SolutionDir)/packages</PackageOutputPath>
         <PackageTags>EF repository unit-of-work</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <!-- <PackageLicenseFile>LICENSE</PackageLicenseFile> -->
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -25,6 +24,5 @@
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>    
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 </Project>
