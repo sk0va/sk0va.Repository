@@ -8,6 +8,10 @@
         
         <AssemblyOriginatorKeyFile>$(SolutionDir)SignKey.snk</AssemblyOriginatorKeyFile>
         <SignAssembly>true</SignAssembly>
+
+        <!--Package Validation-->
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <PackageValidationBaselineVersion>0.10.0-8.beta</PackageValidationBaselineVersion>
     </PropertyGroup>
 </Project>
    
