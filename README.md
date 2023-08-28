@@ -32,11 +32,11 @@ Sample specification may look like this:
 ```csharp
 public interface IPersonSpecification : ISpecification<Person>
 {
-    public void GetById(Guid id);
-    public void ByName(string name, bool exactMatch = false);
-    public void MinimalAge(int age);
+    void GetById(Guid id);
+    void ByName(string name, bool exactMatch = false);
+    void MinimalAge(int age);
 
-    public void OrderByAge(bool descending = false);
+    void OrderByAge(bool descending = false);
 }
 ```
 
@@ -45,15 +45,16 @@ Also, you may organize some of specifications into a hierarchy:
 ```csharp
 public interface IPersonSpecification : ISpecification<Person>, IEntitySpecification
 {
-    public void ByName(string name, bool exactMatch = false);
-    public void MinimalAge(int age);
+    void ByName(string name, bool exactMatch = false);
+    void MinimalAge(int age);
 
-    public void OrderByAge(bool descending = false);
+    void OrderByAge(bool descending = false);
+    void IncludeJobs();
 }
 
 public interface IEntitySpecification : ISpecification<Entity>
 {
-    public void GetById(Guid id);
+    void GetById(Guid id);
 }
 ```
 
@@ -107,7 +108,10 @@ Your specification implementation class should
 - Implement `ISpecification<TDomain>` interface for target domain entity of `TDomain` type, which will be used in phase (1)
 - Implement `IQueryTransformer<TDb>` to apply transformation in phase (2)
 
-Example:
+**Example**:
+
+You may inherit your specifications from `QueryTransformationsContainer<TDb>` which contains query transformations and implements `IQueryTransformer<TDb>` by applying collected transformations in the order, they were added:
+
 ```csharp
 public class EntitySpecification : QueryTransformationsContainer<TDb>, IEntitySpecification
 {
@@ -147,12 +151,17 @@ public class PersonSpecification : EntitySpecification<Person, DbPerson>, IPerso
     {
         AddTranformation(q => descending ? q.OrderByDescending(p => p.Age) : q.OrderBy(p => p.Age));
     }
+
+    public void IncludeJobs()
+    {
+        AddTranformation(q => q.Include(p => p.Jobs));
+    }
 }
 ```
 
 Here `EntitySpecification` is a base class for specifications as well as Entity is the root base class for entities like Person. Note, that we use parametrization with constraint for type parameters to Entities-derived classes for both layers domain and db. This is required to make all `IQuery<TDb>` transformations be typed with the most specific entity type.
 
-When you need to add other specification classes which inherit `PersonSpecification`, you should change the `PersonSpecification` signature to make it generic as follow:
+When you need to add other specification classes that inherits `PersonSpecification`, you should change the `PersonSpecification` signature to make it generic as follows:
 
 ```csharp
 public class PersonSpecification<TPerson, TDbPerson> : EntitySpecification<TPerson, TDbPerson>, IPersonSpecification
@@ -164,4 +173,60 @@ So inherited from `PersonSpecification<>` classes will specify specific domain a
 
 ```csharp
 public class EmployeeSpecification : PersonSpecification<TEmployee, TDbEmployee>, IEmployeeSpecification
+```
+
+Also, it is not necessary to use `QueryTransformationsContainer<>` I.e. in some performance-critical cases you may decide to optimize memory consumption and implement it in a not such convenient way:
+
+```csharp
+public class JobSpecification : IJobSpecification, IQueryTransformer<DbJob>
+{
+    Guid? _id = null;
+    string _title = null;
+    string _description = null;
+    DateTimeOffset? _startDate = null;
+    DateTimeOffset? _endDate = null;
+
+    bool? _orderByStartDateDescending = null;
+    bool? _orderByEndDateDescending = null;
+
+    public void GetById(Guid id) => _id = id;
+
+    public void ByTitle(string title) => _title = title;
+    public void ByDescription(string description) => _description = description;
+    public void ByStartDate(DateTimeOffset startDate) => _startDate = startDate;
+    public void ByEndDate(DateTimeOffset endDate) => _endDate = endDate;
+
+    public void OrderByStartDate(bool descending = false) => _orderByStartDateDescending = descending;
+    public void OrderByEndDate(bool descending = false) => _orderByEndDateDescending = descending;
+
+    public IQueryable<DbJob> Apply(IQueryable<DbJob> query)
+    {
+        if (_id != null)
+            query = query.Where(p => p.Id == _id);
+        
+        if (_title != null)
+            query = query.Where(p => p.Title == _title);
+            
+        if (_description != null)
+            query = query.Where(p => p.Description == _description);
+            
+        if (_startDate != null)
+            query = query.Where(p => p.StartDate == _startDate);
+            
+        if (_endDate != null)
+            query = query.Where(p => p.EndDate == _endDate);
+        
+        if (_orderByStartDateDescending != null)
+            query = _orderByStartDateDescending.Value
+                ? query.OrderByDescending(p => p.StartDate) 
+                : query.OrderBy(p => p.StartDate);
+
+        if (_orderByEndDateDescending != null)
+            query = _orderByEndDateDescending.Value
+                ? query.OrderByDescending(p => p.EndDate) 
+                : query.OrderBy(p => p.EndDate);
+
+        return query;
+    }
+}
 ```

@@ -34,12 +34,11 @@ public class Program
 
         services.AddUnitOfWorkAsScoped<CompanyDbContext>()
             .AddRepositoryAsScoped<Person, DbPerson>(config => config.AddKeyRecognizer(p => new object[] { p.Id }))
-            .AddSpecificationAsTransient<IPersonSpecification, PersonSpecification>();
-
-        // Alternative way:
-        // services.AddUnitOfWorkAsScoped<CompanyDbContext>()
-        //     .AddRepositoryAsScoped<Person, DbPerson>(c =>
-        //         c.AddSpecificationAsTransient<IPersonSpecification, PersonSpecification>());
+            .AddSpecificationAsTransient<IPersonSpecification, PersonSpecification>()
+            
+            .AddRepositoryAsScoped<Job, DbJob>(config => config
+                .AddKeyRecognizer(j => new object[] { j.Id })
+                .AddSpecificationAsTransient<IJobSpecification, JobSpecification>());
 
         // Manual dependency injection setup will look like this:        
         // services.AddScoped<IUnitOfWork, UnitOfWork<CompanyDbContext>>();

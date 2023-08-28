@@ -38,6 +38,7 @@ public class PersonService
     {
         var spec = SpecificationFactory();
         
+        spec.IncludeJobs();
         spec.MinimalAge(personAge);
         spec.ByName(name);
 

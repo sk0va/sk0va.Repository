@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Sample.App;
 using Sample.Core;
 
@@ -25,5 +26,10 @@ public class PersonSpecification : EntitySpecification<Person, DbPerson>, IPerso
     public void OrderByAge(bool descending = false)
     {
         AddTranformation(q => descending ? q.OrderByDescending(p => p.Age) : q.OrderBy(p => p.Age));
+    }
+
+    public void IncludeJobs()
+    {
+        AddTranformation(q => q.Include(p => p.Jobs));
     }
 }
